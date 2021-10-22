@@ -19,7 +19,7 @@ api.interceptors.response.use(response => {
 
       const { 'nextauth.refreshToken': refreshToken } = cookies;
 
-      api.post<any>('/refresh', {
+      api.post('/refresh', {
         refreshToken,
       }).then(response => {
         const { token } = response.data;
