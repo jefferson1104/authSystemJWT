@@ -19,6 +19,7 @@ type AuthContextData = {
   signIn: (credentials: SignInCredentials) => Promise<void>;
   signOut: () => void;
   user: User;
+  isError: boolean;
   isAuthenticated: boolean;
 }
 
@@ -41,6 +42,7 @@ export function signOut() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>();
+  const [isError, setIsError] = useState(false);
   const isAuthenticated = !!user;
 
   useEffect(() => {
@@ -91,17 +93,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
       
       setUser({email, permissions, roles});
-
+      
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+      setIsError(false);
 
       Router.push('/dashboard');
     } catch (error) {
       console.log('API ERROR:', error);
+      setIsError(true);
+      return
     }
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, isAuthenticated, user }}>
+    <AuthContext.Provider value={{ signIn, signOut, isAuthenticated, isError, user }}>
       {children}
     </AuthContext.Provider>
   )
