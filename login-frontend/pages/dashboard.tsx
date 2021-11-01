@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Can } from "../components/Can";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext, signOut } from "../contexts/AuthContext";
 import { setupAPIClient } from "../services/api";
 import { api } from "../services/apiClient";
 import { withSSRAuth } from "../utils/withSSRAuth";
@@ -20,8 +20,11 @@ export default function Dashboard() {
       <p><strong>Usuário</strong>: {user?.email}</p>
 
       <Can permissions={['metrics.list']}>
-        <div>Métricas</div>
-      </Can>      
+        <div>Metricss</div>
+      </Can>
+
+
+      <button onClick={signOut}>Sign out</button>
     </>
   )
 }
